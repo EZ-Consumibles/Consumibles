@@ -76,29 +76,15 @@
         }
 
         .producto {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-		    cursor: pointer;
-		    position: relative;
-		    z-index: 1;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 10px;
+            padding: 10px;
+            display: flex; 
+            align-items: center; 
+            width: 350px;
+            transition: transform 0.3s ease-in-out;
         }
-
-		.producto: hover{
-			transform: scale(1.05);
-		    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
-		    z-index: 100;
-		}
-
-		.contenedor-productos{
-		    display: flex;
-		    flex-wrap: wrap;
-		    gap: 20px;
-		}
-
-		.contenedor-productos{
-		    display:grid;
-		    grid-template-columns: repeat(auto-fill,minmax(250px,1fr));
-		    gap:20px;
-		}
 
         .producto .imagen {
             flex: 0 0 40%;
