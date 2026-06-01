@@ -156,11 +156,11 @@ document
 .getElementById("guardarBtn")
 .addEventListener("click",async()=>{
 
- const nombre =
- document.getElementById("nombre").value;
+ const Nombre =
+ document.getElementById("Nombre").value;
 
- const categoria =
- document.getElementById("categoria").value;
+ const Categoria =
+ document.getElementById("Categoria").value;
 
  const sku =
  document.getElementById("sku").value;
@@ -177,8 +177,8 @@ document
  await addDoc(
    collection(db,"productos"),
    {
-      nombre,
-      categoria,
+      Nombre,
+      Categoria,
       sku,
       ceco,
       cuenta,
