@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Administración</title>
+</head>
+
+<body>
+
+<h1>Panel Administrador</h1>
+
+<button id="logoutBtn">
+Cerrar sesión
+</button>
+
+<script type="module">
+
+import {
+ auth,
+ signOut,
+ onAuthStateChanged
+} from "./firebase.js";
+
+onAuthStateChanged(auth,(user)=>{
+
+ if(!user){
+   window.location.href="login.html";
+ }
+
+});
+
+document.getElementById("logoutBtn")
+.addEventListener("click", async ()=>{
+
+ await signOut(auth);
+
+});
+
+</script>
+
+</body>
+</html>
