@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Login Administrador</title>
+</head>
+
+<body>
+
+<h2>Iniciar sesión</h2>
+
+<input type="email" id="correo" placeholder="Correo">
+<br><br>
+
+<input type="password" id="password" placeholder="Contraseña">
+<br><br>
+
+<button id="loginBtn">Entrar</button>
+
+<script type="module">
+
+import {
+ auth,
+ signInWithEmailAndPassword
+} from "./firebase.js";
+
+document.getElementById("loginBtn")
+.addEventListener("click", async ()=>{
+
+ const correo =
+ document.getElementById("correo").value;
+
+ const password =
+ document.getElementById("password").value;
+
+ try{
+
+   await signInWithEmailAndPassword(
+      auth,
+      correo,
+      password
+   );
+
+   window.location.href="admin.html";
+
+ }catch(error){
+
+   alert("Usuario o contraseña incorrectos");
+
+ }
+
+});
+
+</script>
+
+</body>
+</html>
