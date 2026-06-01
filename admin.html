@@ -2,7 +2,41 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Administración</title>
+<title>Panel Administrador</title>
+
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    margin:20px;
+}
+
+input, select{
+    width:100%;
+    padding:10px;
+    margin-top:5px;
+    margin-bottom:10px;
+}
+
+button{
+    padding:10px 20px;
+    cursor:pointer;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+th,td{
+    border:1px solid #ccc;
+    padding:8px;
+    text-align:center;
+}
+
+</style>
+
 </head>
 
 <body>
@@ -13,13 +47,65 @@
 Cerrar sesión
 </button>
 
+<hr>
+
+<h2>Agregar Producto</h2>
+
+<input id="nombre" placeholder="Nombre">
+
+<select id="categoria">
+    <option>Papeleria</option>
+    <option>Limpieza</option>
+    <option>EPP</option>
+    <option>Lubricantes</option>
+    <option>Productivo</option>
+</select>
+
+<input id="sku" placeholder="SKU">
+
+<input id="ceco" placeholder="CeCo">
+
+<input id="cuenta" placeholder="Cuenta">
+
+<input id="imagen" placeholder="Imagen">
+
+<button id="guardarBtn">
+Guardar Producto
+</button>
+
+<hr>
+
+<h2>Productos Registrados</h2>
+
+<table>
+
+<thead>
+<tr>
+<th>Nombre</th>
+<th>Categoria</th>
+<th>SKU</th>
+<th>Eliminar</th>
+</tr>
+</thead>
+
+<tbody id="tablaProductos">
+
+</tbody>
+
+</table>
+
 <script type="module">
 
 import {
  auth,
+ db,
  signOut,
- onAuthStateChanged
-} from "./firebase.js";
+ onAuthStateChanged,
+ collection,
+ addDoc,
+ getDocs
+}
+from "./firebase.js";
 
 onAuthStateChanged(auth,(user)=>{
 
@@ -29,12 +115,84 @@ onAuthStateChanged(auth,(user)=>{
 
 });
 
-document.getElementById("logoutBtn")
-.addEventListener("click", async ()=>{
+document
+.getElementById("logoutBtn")
+.addEventListener("click",async()=>{
 
  await signOut(auth);
 
 });
+
+async function cargarProductos(){
+
+ const tabla =
+ document.getElementById("tablaProductos");
+
+ tabla.innerHTML="";
+
+ const snapshot =
+ await getDocs(
+   collection(db,"productos")
+ );
+
+ snapshot.forEach((doc)=>{
+
+   const p = doc.data();
+
+   tabla.innerHTML += `
+   <tr>
+      <td>${p.nombre}</td>
+      <td>${p.categoria}</td>
+      <td>${p.sku}</td>
+      <td>Próximamente</td>
+   </tr>
+   `;
+
+ });
+
+}
+
+document
+.getElementById("guardarBtn")
+.addEventListener("click",async()=>{
+
+ const nombre =
+ document.getElementById("nombre").value;
+
+ const categoria =
+ document.getElementById("categoria").value;
+
+ const sku =
+ document.getElementById("sku").value;
+
+ const ceco =
+ document.getElementById("ceco").value;
+
+ const cuenta =
+ document.getElementById("cuenta").value;
+
+ const imagen =
+ document.getElementById("imagen").value;
+
+ await addDoc(
+   collection(db,"productos"),
+   {
+      nombre,
+      categoria,
+      sku,
+      ceco,
+      cuenta,
+      imagen
+   }
+ );
+
+ alert("Producto guardado");
+
+ cargarProductos();
+
+});
+
+cargarProductos();
 
 </script>
 
