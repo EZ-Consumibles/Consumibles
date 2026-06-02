@@ -291,7 +291,7 @@
         </ul>
     </nav>
     <div class="container">
-        <div class="productos-container">
+        <div class="productos-container" id="productos-container">
             <div class="producto" id="producto14">
                 <div class="imagen">
                     <img class="lazy" data-src="Broches archivo con 50 piezas.png" alt="Producto 14">
@@ -667,5 +667,66 @@
             window.addEventListener("orientationchange", lazyLoad);
         });
     </script>
+    <script type="module">
+
+import { db } from "./firebase.js";
+
+import {
+ collection,
+ getDocs
+}
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+async function cargarFirebase(){
+
+ const contenedor =
+ document.getElementById("productos-container");
+
+ const snapshot =
+ await getDocs(
+   collection(db,"productos")
+ );
+
+ snapshot.forEach((doc)=>{
+
+   const p = doc.data();
+
+   if(p.Categoria === "Papeleria"){
+
+      contenedor.innerHTML += `
+
+      <div class="producto">
+
+          <div class="imagen">
+              <img src="${p.imagen}" alt="${p.Nombre}">
+          </div>
+
+          <div class="contenido">
+              <h4>${p.Nombre}</h4>
+              <p>${p.Categoria}</p>
+              <p>SKU:${p.sku}</p>
+              <p>CeCo:${p.ceco}</p>
+
+              ${
+                p.cuenta
+                ? `<p>Cuenta:${p.cuenta}</p>`
+                : ""
+              }
+
+          </div>
+
+      </div>
+
+      `;
+
+   }
+
+ });
+
+}
+
+cargarFirebase();
+
+</script>
 </body>
 </html>
