@@ -333,32 +333,55 @@ async function(id){
  cargarProductos();
 
 };
-
+let productoEditando = null;
 // Editar producto
 window.editarProducto =
 async function(id){
 
- const nuevoNombre =
- prompt(
-   "Nuevo nombre:"
+ productoEditando = id;
+
+ const snapshot =
+ await getDocs(
+   collection(db,"productos")
  );
 
- if(!nuevoNombre){
-   return;
- }
+ snapshot.forEach((documento)=>{
 
- await updateDoc(
-   doc(db,"productos",id),
-   {
-      Nombre:nuevoNombre
+   if(documento.id === id){
+
+      const p = documento.data();
+
+      document.getElementById(
+         "editNombre"
+      ).value = p.Nombre || "";
+
+      document.getElementById(
+         "editCategoria"
+      ).value = p.Categoria || "";
+
+      document.getElementById(
+         "editSku"
+      ).value = p.sku || "";
+
+      document.getElementById(
+         "editCeco"
+      ).value = p.ceco || "";
+
+      document.getElementById(
+         "editCuenta"
+      ).value = p.cuenta || "";
+
+      document.getElementById(
+         "editImagen"
+      ).value = p.imagen || "";
+
    }
- );
 
- alert(
-   "Producto actualizado"
- );
+ });
 
- cargarProductos();
+ document.getElementById(
+   "modalEditar"
+ ).style.display = "block";
 
 };
 
@@ -396,8 +419,73 @@ document
 
 // Cargar productos al abrir
 cargarProductos();
+
+window.cerrarModal = function(){
+
+ document.getElementById(
+   "modalEditar"
+ ).style.display = "none";
+
+};
+
+document
+.getElementById("guardarEdicionBtn")
+.addEventListener("click", async ()=>{
+
+ // código guardar
+
+});
     
 </script>
 
+<div id="modalEditar" style="display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.5);">
+
+<div style="
+background:white;
+width:400px;
+max-width:90%;
+padding:20px;
+margin:50px auto;
+border-radius:10px;">
+
+<h2>Editar Producto</h2>
+
+<input id="editNombre" placeholder="Nombre">
+
+<select id="editCategoria">
+  <option>Papeleria</option>
+  <option>Limpieza</option>
+  <option>EPP</option>
+  <option>Lubricantes</option>
+  <option>Productivo</option>
+</select>
+
+<input id="editSku" placeholder="SKU">
+
+<input id="editCeco" placeholder="CeCo">
+
+<input id="editCuenta" placeholder="Cuenta">
+
+<input id="editImagen" placeholder="Imagen">
+
+<br><br>
+
+<button id="guardarEdicionBtn">
+Guardar Cambios
+</button>
+
+<button onclick="cerrarModal()">
+Cancelar
+</button>
+
+</div>
+</div>
+    
 </body>
 </html>
