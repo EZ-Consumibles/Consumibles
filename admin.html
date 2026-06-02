@@ -170,32 +170,6 @@ onkeyup="filtrarTabla()">
    );
 
 };
-    window.filtrarTabla = function(){
-
- const filtro =
- document
- .getElementById("buscarProducto")
- .value
- .toLowerCase();
-
- const filas =
- document
- .querySelectorAll(
-   "#tablaProductos tr"
- );
-
- filas.forEach((fila)=>{
-
-   const texto =
-   fila.textContent
-   .toLowerCase();
-
-   fila.style.display =
-   texto.includes(filtro)
-   ? ""
-   : "none";
-
- });
      
    cargarProductos();
 
@@ -381,7 +355,33 @@ async function(id){
 
  cargarProductos();
 
+window.filtrarTabla = function(){
 
+ const filtro =
+ document
+ .getElementById("buscarProducto")
+ .value
+ .toLowerCase();
+
+ const filas =
+ document
+ .querySelectorAll("#tablaProductos tr");
+
+ filas.forEach((fila)=>{
+
+   const texto =
+   fila.textContent.toLowerCase();
+
+   if(texto.includes(filtro)){
+      fila.style.display = "";
+   }else{
+      fila.style.display = "none";
+   }
+
+ });
+
+};
+    
 </script>
 
 </body>
