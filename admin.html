@@ -111,7 +111,40 @@ placeholder="Buscar por nombre, SKU o categoría...">
 
 <script type="module">
 
-    document
+import {
+ auth,
+ db,
+ signOut,
+ onAuthStateChanged,
+ collection,
+ addDoc,
+ getDocs,
+ doc,
+ deleteDoc,
+ updateDoc
+}
+from "./firebase.js";
+
+// Verificar sesión
+onAuthStateChanged(auth,(user)=>{
+
+ if(!user){
+   window.location.href="login.html";
+ }
+
+});
+
+// Cerrar sesión
+document
+.getElementById("logoutBtn")
+.addEventListener("click",async()=>{
+
+ await signOut(auth);
+
+});
+
+// Importar Excel
+document
 .getElementById("importarBtn")
 .addEventListener("click", async ()=>{
 
@@ -123,6 +156,7 @@ placeholder="Buscar por nombre, SKU o categoría...">
    alert("Selecciona un archivo Excel");
 
    return;
+
  }
 
  const reader = new FileReader();
@@ -137,7 +171,7 @@ placeholder="Buscar por nombre, SKU o categoría...">
 
    const hoja =
    workbook.Sheets[
-     workbook.SheetNames[0]
+      workbook.SheetNames[0]
    ];
 
    const productos =
@@ -168,8 +202,6 @@ placeholder="Buscar por nombre, SKU o categoría...">
       " productos importados"
    );
 
-};
-     
    cargarProductos();
 
  };
@@ -179,43 +211,16 @@ placeholder="Buscar por nombre, SKU o categoría...">
  );
 
 });
-    
-import {
- auth,
- db,
- signOut,
- onAuthStateChanged,
- collection,
- addDoc,
- getDocs,
- doc,
- deleteDoc,
- updateDoc
-}
-from "./firebase.js";
 
-onAuthStateChanged(auth,(user)=>{
-
- if(!user){
-   window.location.href="login.html";
- }
-
-});
-
-document
-.getElementById("logoutBtn")
-.addEventListener("click",async()=>{
-
- await signOut(auth);
-
-});
-
+// Mostrar productos
 async function cargarProductos(){
 
  const tabla =
- document.getElementById("tablaProductos");
+ document.getElementById(
+   "tablaProductos"
+ );
 
- tabla.innerHTML="";
+ tabla.innerHTML = "";
 
  const snapshot =
  await getDocs(
@@ -224,16 +229,17 @@ async function cargarProductos(){
 
  snapshot.forEach((documento)=>{
 
-   const p = documento.data();
+   const p =
+   documento.data();
 
    tabla.innerHTML += `
    <tr>
 
-      <td>${p.Nombre}</td>
+      <td>${p.Nombre || ""}</td>
 
-      <td>${p.Categoria}</td>
+      <td>${p.Categoria || ""}</td>
 
-      <td>${p.sku}</td>
+      <td>${p.sku || ""}</td>
 
       <td>
          <button
@@ -256,6 +262,7 @@ async function cargarProductos(){
 
 }
 
+// Guardar producto
 document
 .getElementById("guardarBtn")
 .addEventListener("click",async()=>{
@@ -292,33 +299,53 @@ document
 
  alert("Producto guardado");
 
+ document.getElementById("Nombre").value="";
+ document.getElementById("sku").value="";
+ document.getElementById("ceco").value="";
+ document.getElementById("cuenta").value="";
+ document.getElementById("imagen").value="";
+
  cargarProductos();
 
 });
 
+// Eliminar producto
 window.eliminarProducto =
 async function(id){
 
  const confirmar =
- confirm("¿Eliminar producto?");
+ confirm(
+   "¿Deseas eliminar este producto?"
+ );
 
- if(!confirmar) return;
+ if(!confirmar){
+   return;
+ }
 
  await deleteDoc(
    doc(db,"productos",id)
  );
 
+ alert(
+   "Producto eliminado"
+ );
+
  cargarProductos();
 
 };
 
+// Editar producto
 window.editarProducto =
 async function(id){
 
  const nuevoNombre =
- prompt("Nuevo nombre:");
+ prompt(
+   "Nuevo nombre:"
+ );
 
- if(!nuevoNombre) return;
+ if(!nuevoNombre){
+   return;
+ }
 
  await updateDoc(
    doc(db,"productos",id),
@@ -327,36 +354,18 @@ async function(id){
    }
  );
 
- cargarProductos();
-
-};
-
-cargarProductos();
-
-window.editarProducto =
-async function(id){
-
- const nuevoNombre =
- prompt("Nuevo nombre:");
-
- if(!nuevoNombre) return;
-
- await updateDoc(
-   doc(db,"productos",id),
-   {
-      Nombre:nuevoNombre
-   }
+ alert(
+   "Producto actualizado"
  );
 
  cargarProductos();
 
 };
 
- cargarProductos();
-
+// Buscador
 document
 .getElementById("buscarProducto")
-.addEventListener("keyup", function(){
+.addEventListener("keyup",()=>{
 
  const filtro =
  document
@@ -366,7 +375,9 @@ document
 
  const filas =
  document
- .querySelectorAll("#tablaProductos tr");
+ .querySelectorAll(
+   "#tablaProductos tr"
+ );
 
  filas.forEach((fila)=>{
 
@@ -382,6 +393,9 @@ document
  });
 
 });
+
+// Cargar productos al abrir
+cargarProductos();
     
 </script>
 
