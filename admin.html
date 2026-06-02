@@ -104,6 +104,73 @@ Importar Excel
 
 <script type="module">
 
+    document
+.getElementById("importarBtn")
+.addEventListener("click", async ()=>{
+
+ const archivo =
+ document.getElementById("excelFile").files[0];
+
+ if(!archivo){
+
+   alert("Selecciona un archivo Excel");
+
+   return;
+ }
+
+ const reader = new FileReader();
+
+ reader.onload = async (e)=>{
+
+   const data =
+   new Uint8Array(e.target.result);
+
+   const workbook =
+   XLSX.read(data,{type:"array"});
+
+   const hoja =
+   workbook.Sheets[
+     workbook.SheetNames[0]
+   ];
+
+   const productos =
+   XLSX.utils.sheet_to_json(hoja);
+
+   let contador = 0;
+
+   for(const p of productos){
+
+      await addDoc(
+         collection(db,"productos"),
+         {
+            Nombre: p.Nombre || "",
+            Categoria: p.Categoria || "",
+            sku: p.sku || "",
+            ceco: p.ceco || "",
+            cuenta: p.cuenta || "",
+            imagen: p.imagen || ""
+         }
+      );
+
+      contador++;
+
+   }
+
+   alert(
+      contador +
+      " productos importados"
+   );
+
+   cargarProductos();
+
+ };
+
+ reader.readAsArrayBuffer(
+   archivo
+ );
+
+});
+    
 import {
  auth,
  db,
