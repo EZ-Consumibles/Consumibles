@@ -3,40 +3,10 @@
 <html>
 <head>
 <meta charset="utf-8">
+    <link rel="stylesheet" href="admin.css">
 <title>Panel Administrador</title>
 
-<style>
 
-body{
-    font-family: Arial, sans-serif;
-    margin:20px;
-}
-
-input, select{
-    width:100%;
-    padding:10px;
-    margin-top:5px;
-    margin-bottom:10px;
-}
-
-button{
-    padding:10px 20px;
-    cursor:pointer;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:20px;
-}
-
-th,td{
-    border:1px solid #ccc;
-    padding:8px;
-    text-align:center;
-}
-
-</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 
@@ -88,6 +58,39 @@ Importar Excel
 type="text"
 id="buscarProducto"
 placeholder="Buscar por nombre, SKU o categoría...">
+
+<div id="estadisticas">
+
+<div class="card">
+📦 Total: <span id="totalProductos">0</span>
+</div>
+
+<div class="card">
+📚 Papelería:
+<span id="totalPapeleria">0</span>
+</div>
+
+<div class="card">
+🧹 Limpieza:
+<span id="totalLimpieza">0</span>
+</div>
+
+<div class="card">
+🦺 EPP:
+<span id="totalEPP">0</span>
+</div>
+
+<div class="card">
+⚙️ Productivo:
+<span id="totalProductivo">0</span>
+</div>
+
+<div class="card">
+🛢️ Lubricantes:
+<span id="totalLubricantes">0</span>
+</div>
+
+</div>
     
 <h2>Productos Registrados</h2>
 
@@ -222,6 +225,13 @@ async function cargarProductos(){
 
  tabla.innerHTML = "";
 
+    let total = 0;
+let papeleria = 0;
+let limpieza = 0;
+let epp = 0;
+let productivo = 0;
+let lubricantes = 0;
+
  const snapshot =
  await getDocs(
    collection(db,"productos")
@@ -229,8 +239,39 @@ async function cargarProductos(){
 
  snapshot.forEach((documento)=>{
 
-   const p =
-   documento.data();
+     document.getElementById(
+"totalProductos"
+).textContent = total;
+
+document.getElementById(
+"totalPapeleria"
+).textContent = papeleria;
+
+document.getElementById(
+"totalLimpieza"
+).textContent = limpieza;
+
+document.getElementById(
+"totalEPP"
+).textContent = epp;
+
+document.getElementById(
+"totalProductivo"
+).textContent = productivo;
+
+document.getElementById(
+"totalLubricantes"
+).textContent = lubricantes;
+
+   const p =documento.data();
+
+     total++;
+
+if(p.Categoria === "Papelería") papeleria++;
+if(p.Categoria === "Limpieza") limpieza++;
+if(p.Categoria === "EPP") epp++;
+if(p.Categoria === "Productivo") productivo++;
+if(p.Categoria === "Lubricantes") lubricantes++;
 
    tabla.innerHTML += `
    <tr>
