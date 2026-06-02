@@ -1,10 +1,16 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 
-import {
+export {
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+  collection,
+  addDoc,
+  getDocs,
   doc,
   deleteDoc,
   updateDoc
-}
+};
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 import {
