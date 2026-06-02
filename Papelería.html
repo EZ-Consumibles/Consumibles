@@ -303,67 +303,24 @@
         <p>&copy; 2024 Departamento de Logística</p>
     </footer>
 
-    <script>
-        function searchList() {
-            let input = document.getElementById('searchInput').value.toUpperCase();
-            let productosContainer = document.querySelector('.productos-container');
-            let productos = productosContainer.querySelectorAll('.producto');
-
-            productos.forEach(producto => {
-                let texto = producto.innerText.toUpperCase();
-                let productoId = producto.id.toUpperCase();
-
-                if (texto.includes(input) || productoId.includes(input)) {
-                    producto.style.display = 'flex'; 
-                    const img = producto.querySelector('img.lazy');
-                    if (img) {
-                        img.src = img.dataset.src;
-                        img.classList.remove('lazy');
-                    }
-                } else {
-                    producto.style.display = 'none'; 
-                }
-            });
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            const lazyImages = document.querySelectorAll("img.lazy");
-
-            function lazyLoad() {
-                lazyImages.forEach(img => {
-                    if (img.getBoundingClientRect().top < window.innerHeight && img.getBoundingClientRect().bottom > 0) {
-                        img.src = img.dataset.src;
-                        img.classList.remove("lazy");
-                    }
-                });
-
-                if (lazyImages.length === 0) {
-                    document.removeEventListener("scroll", lazyLoad);
-                    window.removeEventListener("resize", lazyLoad);
-                    window.removeEventListener("orientationchange", lazyLoad);
-                }
-            }
-
-            lazyLoad();
-            document.addEventListener("scroll", lazyLoad);
-            window.addEventListener("resize", lazyLoad);
-            window.addEventListener("orientationchange", lazyLoad);
-        });
-    </script>
-    <script type="module">
+ <script type="module">
 
 import { db } from "./firebase.js";
 
 import {
- collection,
- getDocs
+ getDocs,
+ collection
 }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
-async function cargarFirebase(){
+async function cargarProductos(){
 
  const contenedor =
- document.getElementById("productos-container");
+ document.getElementById(
+   "productos-container"
+ );
+
+ contenedor.innerHTML = "";
 
  const snapshot =
  await getDocs(
@@ -381,19 +338,34 @@ async function cargarFirebase(){
       <div class="producto">
 
           <div class="imagen">
-              <img src="${p.imagen}" alt="${p.Nombre}">
+
+              <img
+              src="${p.imagen}"
+              alt="${p.Nombre}">
+
           </div>
 
           <div class="contenido">
+
               <h4>${p.Nombre}</h4>
+
               <p>${p.Categoria}</p>
+
               <p>SKU:${p.sku}</p>
+
               <p>CeCo:${p.ceco}</p>
 
               ${
-                p.cuenta
-                ? `<p>Cuenta:${p.cuenta}</p>`
-                : ""
+                p.cuenta &&
+                p.cuenta !== "N/A"
+
+                ?
+
+                `<p>Cuenta:${p.cuenta}</p>`
+
+                :
+
+                ""
               }
 
           </div>
@@ -408,7 +380,7 @@ async function cargarFirebase(){
 
 }
 
-cargarFirebase();
+cargarProductos();
 
 </script>
 </body>
