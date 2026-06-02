@@ -290,185 +290,98 @@
             <li><a href="Productivo.html">Productivo</a></li>
         </ul>
     </nav>
-    <div class="container">
-        <div class="productos-container">
-            <div class="producto" id="producto18">
-                <div class="imagen">
-                    <img class="lazy" data-src="Cepillo de cerdas plasticas para plancha.png" alt="Producto 18">
-                </div>
-                <div class="contenido">
-                    <h4>Cepillo de cerdas plasticas para plancha</h4>
-                    <p>Limpieza</p>
-                    <p>SKU:5512673</p>
-                    <p>CeCo:660K6K15A0</p>
-                </div>
-            </div>
-            <div class="producto" id="producto26">
-                <div class="imagen">
-                    <img class="lazy" data-src="Conos de papel con 250 piezas.png" alt="Producto 26">
-                </div>
-                <div class="contenido">
-                    <h4>Conos de papel con 250 piezas</h4>
-                    <p>Limpieza</p>
-                    <p>SKU:5531587</p>
-                    <p>CeCo:660K6101C0</p>
-                    <p>Cuenta:60001103</p>
-                </div>
-            </div>
-            <div class="producto" id="producto28">
-                <div class="imagen">
-                    <img class="lazy" data-src="Crema desengrasante para manos bote con 4 kg.png" alt="Producto 28">
-                </div>
-                <div class="contenido">
-                    <h4>Crema desengrasante para manos bote con 4 kg</h4>
-                    <p>Limpieza</p>
-                    <p>SKU:5512659</p>
-                    <p>CeCo:660K6K15A0</p>
-                </div>
-            </div>
-            <div class="producto" id="producto35">
-                <div class="imagen">
-                    <img class="lazy" data-src="Detergente en polvo Roma 1 Kg (Jabon).png" alt="Producto 35">
-                </div>
-                <div class="contenido">
-                    <h4>Detergente en polvo Roma 1 Kg (Jabon)</h4>
-                    <p>Limpieza</p>
-                    <p>SKU:5518093</p>
-                    <p>CeCo:660K6K15A0</p>
-                </div>
-            </div>
-            <div class="producto" id="producto37">
-                <div class="imagen">
-                    <img class="lazy" data-src="Escoba de plastico.png" alt="Producto 37">
-                </div>
-                <div class="contenido">
-                    <h4>Escoba de plastico</h4>
-                    <p>Limpieza</p>
-                    <p>SKU:5527072</p>
-                    <p>CeCo:660K6K15A0</p>
-                </div>
-            </div>
-            <div class="producto" id="producto39">
-                <div class="imagen">
-                    <img class="lazy" data-src="Fibra verde de nylon 3M.png" alt="Producto 39">
-                </div>
-                <div class="contenido">
-                    <h4>Fibra verde de nylon 3M</h4>
-                    <p>Limpieza</p>
-                    <p>SKU:5500034</p>
-                    <p>CeCo:660K6K15A0</p>
-                </div>
-            </div>
-            <div class="producto" id="producto52">
-                <div class="imagen">
-                    <img class="lazy" data-src="Jalador de hule con mango de metal.png" alt="Producto 52">
-                </div>
-                <div class="contenido">
-                    <h4>Jalador de hule con mango de metal</h4>
-                    <p>Limpieza</p>
-                    <p>SKU:5542305</p>
-                    <p>CeCo:660K6K15A0</p>
-                </div>
-            </div>
-            <div class="producto" id="producto78">
-                <div class="imagen">
-                    <img class="lazy" data-src="Papel higienico jumbo petalo con 500 m.png" alt="Producto 78">
-                </div>
-                <div class="contenido">
-                    <h4>Papel higienico jumbo petalo con 500 m</h4>
-                    <p>Limpieza</p>
-                    <p>SKU:5502239</p>
-                    <p>CeCo:660K6K15A0</p>
-                </div>
-            </div>
-            <div class="producto" id="producto102">
-                <div class="imagen">
-                    <img class="lazy" data-src="Shampoo para manos con 4 litros (jabon).png" alt="Producto 102">
-                </div>
-                <div class="contenido">
-                    <h4>Shampoo para manos con 4 litros (jabon)</h4>
-                    <p>Limpieza</p>
-                    <p>SKU:5514634</p>
-                    <p>CeCo:660K6K15A0</p>
-                </div>
-            </div>
-            <div class="producto" id="producto116">
-                <div class="imagen">
-                    <img class="lazy" data-src="Toalla industrial de papel desechable.png" alt="Producto 116">
-                </div>
-                <div class="contenido">
-                    <h4>Toalla industrial de papel desechable</h4>
-                    <p>Limpieza</p>
-                    <p>SKU:5512677</p>
-                    <p>CeCo:660K6K0810</p>
-                    <p>Cuenta:50001013</p>
-                </div>
-            </div>
-            <div class="producto" id="producto117">
-                <div class="imagen">
-                    <img class="lazy" data-src="Trapeador.png" alt="Producto 117">
-                </div>
-                <div class="contenido">
-                    <h4>Trapeador</h4>
-                    <p>Limpieza</p>
-                    <p>SKU:5527082</p>
-                    <p>CeCo:660K6K15A0</p>
-                </div>
-            </div>
-            </div>
-            </div>
+   <div class="container">
+    <div
+        class="productos-container"
+        id="productos-container">
+
+    </div>
+</div>
 
 
     <footer>
         <p>&copy; 2024 Departamento de Logística</p>
     </footer>
 
-    <script>
-        function searchList() {
-            let input = document.getElementById('searchInput').value.toUpperCase();
-            let productosContainer = document.querySelector('.productos-container');
-            let productos = productosContainer.querySelectorAll('.producto');
+ <script type="module">
 
-            productos.forEach(producto => {
-                let texto = producto.innerText.toUpperCase();
-                let productoId = producto.id.toUpperCase();
+import { db } from "./firebase.js";
 
-                if (texto.includes(input) || productoId.includes(input)) {
-                    producto.style.display = 'flex'; 
-                    const img = producto.querySelector('img.lazy');
-                    if (img) {
-                        img.src = img.dataset.src;
-                        img.classList.remove('lazy');
-                    }
-                } else {
-                    producto.style.display = 'none'; 
-                }
-            });
-        }
+import {
+ getDocs,
+ collection
+}
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
-        document.addEventListener("DOMContentLoaded", function() {
-            const lazyImages = document.querySelectorAll("img.lazy");
+async function cargarProductos(){
 
-            function lazyLoad() {
-                lazyImages.forEach(img => {
-                    if (img.getBoundingClientRect().top < window.innerHeight && img.getBoundingClientRect().bottom > 0) {
-                        img.src = img.dataset.src;
-                        img.classList.remove("lazy");
-                    }
-                });
+ const contenedor =
+ document.getElementById(
+   "productos-container"
+ );
 
-                if (lazyImages.length === 0) {
-                    document.removeEventListener("scroll", lazyLoad);
-                    window.removeEventListener("resize", lazyLoad);
-                    window.removeEventListener("orientationchange", lazyLoad);
-                }
-            }
+ contenedor.innerHTML = "";
 
-            lazyLoad();
-            document.addEventListener("scroll", lazyLoad);
-            window.addEventListener("resize", lazyLoad);
-            window.addEventListener("orientationchange", lazyLoad);
-        });
-    </script>
+ const snapshot =
+ await getDocs(
+   collection(db,"productos")
+ );
+
+ snapshot.forEach((doc)=>{
+
+   const p = doc.data();
+
+   if(p.Categoria === "Limpieza"){
+
+      contenedor.innerHTML += `
+
+      <div class="producto">
+
+          <div class="imagen">
+
+              <img
+              src="${p.imagen}"
+              alt="${p.Nombre}">
+
+          </div>
+
+          <div class="contenido">
+
+              <h4>${p.Nombre}</h4>
+
+              <p>${p.Categoria}</p>
+
+              <p>SKU:${p.sku}</p>
+
+              <p>CeCo:${p.ceco}</p>
+
+              ${
+                p.cuenta &&
+                p.cuenta !== "N/A"
+
+                ?
+
+                `<p>Cuenta:${p.cuenta}</p>`
+
+                :
+
+                ""
+              }
+
+          </div>
+
+      </div>
+
+      `;
+
+   }
+
+ });
+
+}
+
+cargarProductos();
+
+</script>
 </body>
 </html>
