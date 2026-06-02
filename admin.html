@@ -249,9 +249,47 @@ async function cargarProductos(){
 
 }
 
+document
+.getElementById("guardarBtn")
+.addEventListener("click",async()=>{
+
+ const Nombre =
+ document.getElementById("Nombre").value;
+
+ const Categoria =
+ document.getElementById("Categoria").value;
+
+ const sku =
+ document.getElementById("sku").value;
+
+ const ceco =
+ document.getElementById("ceco").value;
+
+ const cuenta =
+ document.getElementById("cuenta").value;
+
+ const imagen =
+ document.getElementById("imagen").value;
+
+ await addDoc(
+   collection(db,"productos"),
+   {
+      Nombre,
+      Categoria,
+      sku,
+      ceco,
+      cuenta,
+      imagen
+   }
+ );
+
  alert("Producto guardado");
 
-    window.eliminarProducto =
+ cargarProductos();
+
+});
+
+window.eliminarProducto =
 async function(id){
 
  const confirmar =
@@ -266,6 +304,27 @@ async function(id){
  cargarProductos();
 
 };
+
+window.editarProducto =
+async function(id){
+
+ const nuevoNombre =
+ prompt("Nuevo nombre:");
+
+ if(!nuevoNombre) return;
+
+ await updateDoc(
+   doc(db,"productos",id),
+   {
+      Nombre:nuevoNombre
+   }
+ );
+
+ cargarProductos();
+
+};
+
+cargarProductos();
 
 window.editarProducto =
 async function(id){
