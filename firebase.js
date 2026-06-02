@@ -1,12 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 
-export {
-  doc,
-deleteDoc,
-updateDoc
-};
-from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
-
 import {
   getAuth,
   signInWithEmailAndPassword,
@@ -18,7 +11,10 @@ import {
   getFirestore,
   collection,
   addDoc,
-  getDocs
+  getDocs,
+  doc,
+  deleteDoc,
+  updateDoc
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -42,5 +38,8 @@ export {
   onAuthStateChanged,
   collection,
   addDoc,
-  getDocs
+  getDocs,
+  doc,
+  deleteDoc,
+  updateDoc
 };
