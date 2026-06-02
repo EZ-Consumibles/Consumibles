@@ -93,6 +93,7 @@ Importar Excel
 <th>Nombre</th>
 <th>Categoria</th>
 <th>SKU</th>
+<th>Editar</th>
 <th>Eliminar</th>
 </tr>
 </thead>
@@ -179,7 +180,10 @@ import {
  onAuthStateChanged,
  collection,
  addDoc,
- getDocs
+ getDocs,
+ doc,
+ deleteDoc,
+ updateDoc
 }
 from "./firebase.js";
 
@@ -211,16 +215,33 @@ async function cargarProductos(){
    collection(db,"productos")
  );
 
- snapshot.forEach((doc)=>{
+ snapshot.forEach((documento)=>{
 
-   const p = doc.data();
+   const p = documento.data();
 
    tabla.innerHTML += `
    <tr>
+
       <td>${p.Nombre}</td>
+
       <td>${p.Categoria}</td>
+
       <td>${p.sku}</td>
-      <td>Próximamente</td>
+
+      <td>
+         <button
+         onclick="editarProducto('${documento.id}')">
+         ✏️ Editar
+         </button>
+      </td>
+
+      <td>
+         <button
+         onclick="eliminarProducto('${documento.id}')">
+         🗑️ Eliminar
+         </button>
+      </td>
+
    </tr>
    `;
 
@@ -228,41 +249,42 @@ async function cargarProductos(){
 
 }
 
-document
-.getElementById("guardarBtn")
-.addEventListener("click",async()=>{
+ alert("Producto guardado");
 
- const Nombre =
- document.getElementById("Nombre").value;
+    window.eliminarProducto =
+async function(id){
 
- const Categoria =
- document.getElementById("Categoria").value;
+ const confirmar =
+ confirm("¿Eliminar producto?");
 
- const sku =
- document.getElementById("sku").value;
+ if(!confirmar) return;
 
- const ceco =
- document.getElementById("ceco").value;
+ await deleteDoc(
+   doc(db,"productos",id)
+ );
 
- const cuenta =
- document.getElementById("cuenta").value;
+ cargarProductos();
 
- const imagen =
- document.getElementById("imagen").value;
+};
 
- await addDoc(
-   collection(db,"productos"),
+window.editarProducto =
+async function(id){
+
+ const nuevoNombre =
+ prompt("Nuevo nombre:");
+
+ if(!nuevoNombre) return;
+
+ await updateDoc(
+   doc(db,"productos",id),
    {
-      Nombre,
-      Categoria,
-      sku,
-      ceco,
-      cuenta,
-      imagen
+      Nombre:nuevoNombre
    }
  );
 
- alert("Producto guardado");
+ cargarProductos();
+
+};
 
  cargarProductos();
 
