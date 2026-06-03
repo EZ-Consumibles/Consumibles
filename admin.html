@@ -67,7 +67,7 @@ placeholder="Buscar por nombre, SKU o categoría...">
 
 <div class="card">
 📚 Papelería:
-<span id="totalPapeleria">0</span>
+<span id="totalPapelería">0</span>
 </div>
 
 <div class="card">
@@ -244,7 +244,7 @@ let lubricantes = 0;
 ).textContent = total;
 
 document.getElementById(
-"totalPapeleria"
+"totalPapelería"
 ).textContent = papeleria;
 
 document.getElementById(
@@ -473,7 +473,46 @@ document
 .getElementById("guardarEdicionBtn")
 .addEventListener("click", async ()=>{
 
- // código guardar
+ await updateDoc(
+   doc(db,"productos",productoEditando),
+   {
+      Nombre:
+      document.getElementById(
+         "editNombre"
+      ).value,
+
+      Categoria:
+      document.getElementById(
+         "editCategoria"
+      ).value,
+
+      sku:
+      document.getElementById(
+         "editSku"
+      ).value,
+
+      ceco:
+      document.getElementById(
+         "editCeco"
+      ).value,
+
+      cuenta:
+      document.getElementById(
+         "editCuenta"
+      ).value,
+
+      imagen:
+      document.getElementById(
+         "editImagen"
+      ).value
+   }
+ );
+
+ alert("Producto actualizado");
+
+ cerrarModal();
+
+ cargarProductos();
 
 });
     
