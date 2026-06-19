@@ -32,14 +32,14 @@ Cerrar sesión
     <option>Lubricantes</option>
     <option>Productivo</option>
 </select>
-
+    
 <input id="sku" placeholder="SKU">
 
 <input id="ceco" placeholder="CeCo">
 
 <input id="cuenta" placeholder="Cuenta">
 
-<input id="imagen" placeholder="Imagen">
+<input type="file" id="imagenFile" accept="image/*">
 
 <button id="guardarBtn">
 Guardar Producto
@@ -125,9 +125,17 @@ import {
  getDocs,
  doc,
  deleteDoc,
- updateDoc
+ updateDoc,
+ storage
 }
 from "./firebase.js";
+    
+    import {
+  ref,
+  uploadBytes,
+  getDownloadURL
+}
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-storage.js";
 
 // Verificar sesión
 onAuthStateChanged(auth,(user)=>{
