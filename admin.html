@@ -317,23 +317,31 @@ document
 .getElementById("guardarBtn")
 .addEventListener("click",async()=>{
 
- const Nombre =
- document.getElementById("Nombre").value;
+ const Nombre = document.getElementById("Nombre").value;
 
- const Categoria =
- document.getElementById("Categoria").value;
+ const Categoria = document.getElementById("Categoria").value;
 
- const sku =
- document.getElementById("sku").value;
+ const sku = document.getElementById("sku").value;
 
- const ceco =
- document.getElementById("ceco").value;
+ const ceco = document.getElementById("ceco").value;
 
- const cuenta =
- document.getElementById("cuenta").value;
+ const cuenta = document.getElementById("cuenta").value;
 
- const imagen =
- document.getElementById("imagen").value;
+ const archivo = document.getElementById("imagenFile").files[0];
+
+let imagen = "";
+
+if(archivo){
+
+  const nombreArchivo = Date.now() + "_" + archivo.name;
+
+  const storageRef = ref(storage,"productos/" + nombreArchivo);
+
+  await uploadBytes(storageRef, archivo);
+
+  imagen = await getDownloadURL(storageRef);
+
+}
 
  await addDoc(
    collection(db,"productos"),
