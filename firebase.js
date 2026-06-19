@@ -20,8 +20,7 @@ import {
 import {
  getStorage
 }
-from
-"https://www.gstatic.com/firebasejs/12.0.0/firebase-storage.js";
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-storage.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAVoPp-Mc6dP1V7vc_UM09eGwusyR47p5A",
