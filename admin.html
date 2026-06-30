@@ -32,14 +32,14 @@ Cerrar sesión
     <option>Lubricantes</option>
     <option>Productivo</option>
 </select>
-    
+
 <input id="sku" placeholder="SKU">
 
 <input id="ceco" placeholder="CeCo">
 
 <input id="cuenta" placeholder="Cuenta">
 
-<input type="file" id="imagenFile" accept="image/*">
+<input id="imagen" placeholder="Imagen">
 
 <button id="guardarBtn">
 Guardar Producto
@@ -125,17 +125,9 @@ import {
  getDocs,
  doc,
  deleteDoc,
- updateDoc,
- storage
+ updateDoc
 }
 from "./firebase.js";
-    
-    import {
-  ref,
-  uploadBytes,
-  getDownloadURL
-}
-from "https://www.gstatic.com/firebasejs/12.0.0/firebase-storage.js";
 
 // Verificar sesión
 onAuthStateChanged(auth,(user)=>{
@@ -317,31 +309,23 @@ document
 .getElementById("guardarBtn")
 .addEventListener("click",async()=>{
 
- const Nombre = document.getElementById("Nombre").value;
+ const Nombre =
+ document.getElementById("Nombre").value;
 
- const Categoria = document.getElementById("Categoria").value;
+ const Categoria =
+ document.getElementById("Categoria").value;
 
- const sku = document.getElementById("sku").value;
+ const sku =
+ document.getElementById("sku").value;
 
- const ceco = document.getElementById("ceco").value;
+ const ceco =
+ document.getElementById("ceco").value;
 
- const cuenta = document.getElementById("cuenta").value;
+ const cuenta =
+ document.getElementById("cuenta").value;
 
- const archivo = document.getElementById("imagenFile").files[0];
-
-let imagen = "";
-
-if(archivo){
-
-  const nombreArchivo = Date.now() + "_" + archivo.name;
-
-  const storageRef = ref(storage,"productos/" + nombreArchivo);
-
-  await uploadBytes(storageRef, archivo);
-
-  imagen = await getDownloadURL(storageRef);
-
-}
+ const imagen =
+ document.getElementById("imagen").value;
 
  await addDoc(
    collection(db,"productos"),
