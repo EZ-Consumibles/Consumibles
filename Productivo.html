@@ -331,9 +331,8 @@ async function cargarProductos(){
  snapshot.forEach((doc)=>{
 
    const p = doc.data();
-     console.log(p);
 
-   if(true){
+   if(p.Categoria === "Productivo"){
 
       contenedor.innerHTML += `
 
