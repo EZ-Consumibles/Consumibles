@@ -17,11 +17,6 @@ import {
   updateDoc
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
-import {
- getStorage
-}
-from "https://www.gstatic.com/firebasejs/12.0.0/firebase-storage.js";
-
 const firebaseConfig = {
   apiKey: "AIzaSyAVoPp-Mc6dP1V7vc_UM09eGwusyR47p5A",
   authDomain: "consumiblesez.firebaseapp.com",
@@ -33,11 +28,10 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const storage = getStorage(app);
 
 export const auth = getAuth(app);
 export const db = getFirestore(app);
-export {auth,db,storage};
+
 export {
   signInWithEmailAndPassword,
   signOut,
