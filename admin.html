@@ -1,30 +1,19 @@
 <!DOCTYPE html>
-
 <html>
 <head>
 <meta charset="utf-8">
     <link rel="icon" type="image/png" href="Logo_Logistica.png">
     <link rel="stylesheet" href="admin.css">
 <title>Panel Administrador</title>
-
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
-
 <body>
-
 <h1>Panel Administrador</h1>
-
-<button id="logoutBtn">
-Cerrar sesión
-</button>
-
+<button id="logoutBtn">Cerrar sesión</button>
 <hr>
-
 <h2>Agregar Producto</h2>
 
 <input id="Nombre" placeholder="Nombre">
-
 <select id="Categoria">
     <option>Papeleria</option>
     <option>Limpieza</option>
@@ -34,34 +23,18 @@ Cerrar sesión
 </select>
 
 <input id="sku" placeholder="SKU">
-
 <input id="ceco" placeholder="CeCo">
-
 <input id="cuenta" placeholder="Cuenta">
-
 <input id="imagen" placeholder="Imagen">
 
-<button id="guardarBtn">
-Guardar Producto
-</button>
-
+<button id="guardarBtn">Guardar Producto</button>
 <hr>
-
 <h2>Importar Excel</h2>
-
 <input type="file" id="excelFile" accept=".xlsx,.xls">
+<button id="importarBtn">Importar Excel</button>
 
-<button id="importarBtn">
-Importar Excel
-</button>
-
-<input
-type="text"
-id="buscarProducto"
-placeholder="Buscar por nombre, SKU o categoría...">
-
+<input type="text" id="buscarProducto" placeholder="Buscar por nombre, SKU o categoría...">
 <div id="estadisticas">
-
 <div class="card">
 📦 Total: <span id="totalProductos">0</span>
 </div>
@@ -90,13 +63,10 @@ placeholder="Buscar por nombre, SKU o categoría...">
 🛢️ Lubricantes:
 <span id="totalLubricantes">0</span>
 </div>
-
 </div>
     
 <h2>Productos Registrados</h2>
-
 <table>
-
 <thead>
 <tr>
 <th>Nombre</th>
@@ -106,15 +76,11 @@ placeholder="Buscar por nombre, SKU o categoría...">
 <th>Eliminar</th>
 </tr>
 </thead>
-
 <tbody id="tablaProductos">
-
 </tbody>
-
 </table>
 
 <script type="module">
-
 import {
  auth,
  db,
@@ -125,13 +91,11 @@ import {
  getDocs,
  doc,
  deleteDoc,
- updateDoc
-}
+ updateDoc}
 from "./firebase.js";
 
 // Verificar sesión
 onAuthStateChanged(auth,(user)=>{
-
  if(!user){
    window.location.href="login.html";
  }
@@ -142,9 +106,7 @@ onAuthStateChanged(auth,(user)=>{
 document
 .getElementById("logoutBtn")
 .addEventListener("click",async()=>{
-
  await signOut(auth);
-
 });
 
 // Importar Excel
@@ -152,39 +114,20 @@ document
 .getElementById("importarBtn")
 .addEventListener("click", async ()=>{
 
- const archivo =
- document.getElementById("excelFile").files[0];
-
+ const archivo = document.getElementById("excelFile").files[0];
  if(!archivo){
-
    alert("Selecciona un archivo Excel");
-
    return;
-
  }
 
  const reader = new FileReader();
-
  reader.onload = async (e)=>{
-
-   const data =
-   new Uint8Array(e.target.result);
-
-   const workbook =
-   XLSX.read(data,{type:"array"});
-
-   const hoja =
-   workbook.Sheets[
-      workbook.SheetNames[0]
-   ];
-
-   const productos =
-   XLSX.utils.sheet_to_json(hoja);
-
+   const data = new Uint8Array(e.target.result);
+   const workbook = XLSX.read(data,{type:"array"});
+   const hoja =workbook.Sheets[ workbook.SheetNames[0]];
+   const productos = XLSX.utils.sheet_to_json(hoja);
    let contador = 0;
-
    for(const p of productos){
-
       await addDoc(
          collection(db,"productos"),
          {
@@ -196,33 +139,19 @@ document
             imagen: p.imagen || ""
          }
       );
-
       contador++;
-
    }
-
-   alert(
-      contador +
-      " productos importados"
-   );
-
+   alert( contador + " productos importados");
    cargarProductos();
-
  };
 
- reader.readAsArrayBuffer(
-   archivo
- );
-
+ reader.readAsArrayBuffer( archivo);
 });
 
 // Mostrar productos
 async function cargarProductos(){
 
- const tabla =
- document.getElementById(
-   "tablaProductos"
- );
+ const tabla = document.getElementById("tablaProductos");
 
  tabla.innerHTML = "";
 
@@ -233,36 +162,14 @@ let epp = 0;
 let productivo = 0;
 let lubricantes = 0;
 
- const snapshot =
- await getDocs(
-   collection(db,"productos")
- );
-
+ const snapshot = await getDocs( collection(db,"productos"));
  snapshot.forEach((documento)=>{
-
-     document.getElementById(
-"totalProductos"
-).textContent = total;
-
-document.getElementById(
-"totalPapelería"
-).textContent = papeleria;
-
-document.getElementById(
-"totalLimpieza"
-).textContent = limpieza;
-
-document.getElementById(
-"totalEPP"
-).textContent = epp;
-
-document.getElementById(
-"totalProductivo"
-).textContent = productivo;
-
-document.getElementById(
-"totalLubricantes"
-).textContent = lubricantes;
+     document.getElementById("totalProductos").textContent = total;
+document.getElementById("totalPapelería").textContent = papeleria;
+document.getElementById("totalLimpieza").textContent = limpieza;
+document.getElementById("totalEPP").textContent = epp;
+document.getElementById("totalProductivo").textContent = productivo;
+document.getElementById("totalLubricantes").textContent = lubricantes;
 
    const p =documento.data();
 
@@ -276,59 +183,37 @@ if(p.Categoria === "Lubricantes") lubricantes++;
 
    tabla.innerHTML += `
    <tr>
-
       <td>${p.Nombre || ""}</td>
-
       <td>${p.Categoria || ""}</td>
-
       <td>${p.sku || ""}</td>
-
       <td>
          <button
          onclick="editarProducto('${documento.id}')">
          ✏️ Editar
          </button>
       </td>
-
       <td>
          <button
          onclick="eliminarProducto('${documento.id}')">
          🗑️ Eliminar
          </button>
       </td>
-
    </tr>
    `;
-
  });
-
 }
 
 // Guardar producto
-document
-.getElementById("guardarBtn")
-.addEventListener("click",async()=>{
+document.getElementById("guardarBtn").addEventListener("click",async()=>{
 
- const Nombre =
- document.getElementById("Nombre").value;
+ const Nombre = document.getElementById("Nombre").value;
+ const Categoria = document.getElementById("Categoria").value;
+ const sku = document.getElementById("sku").value;
+ const ceco = document.getElementById("ceco").value;
+ const cuenta = document.getElementById("cuenta").value;
+ const imagen = document.getElementById("imagen").value;
 
- const Categoria =
- document.getElementById("Categoria").value;
-
- const sku =
- document.getElementById("sku").value;
-
- const ceco =
- document.getElementById("ceco").value;
-
- const cuenta =
- document.getElementById("cuenta").value;
-
- const imagen =
- document.getElementById("imagen").value;
-
- await addDoc(
-   collection(db,"productos"),
+ await addDoc(collection(db,"productos"),
    {
       Nombre,
       Categoria,
@@ -352,173 +237,74 @@ document
 });
 
 // Eliminar producto
-window.eliminarProducto =
-async function(id){
-
- const confirmar =
- confirm(
-   "¿Deseas eliminar este producto?"
- );
-
+window.eliminarProducto = async function(id){
+ const confirmar = confirm( "¿Deseas eliminar este producto?");
  if(!confirmar){
    return;
  }
-
- await deleteDoc(
-   doc(db,"productos",id)
- );
-
- alert(
-   "Producto eliminado"
- );
-
+ await deleteDoc( doc(db,"productos",id));
+ alert("Producto eliminado");
  cargarProductos();
-
 };
 let productoEditando = null;
 // Editar producto
-window.editarProducto =
-async function(id){
+window.editarProducto = async function(id){
 
  productoEditando = id;
 
- const snapshot =
- await getDocs(
-   collection(db,"productos")
- );
+ const snapshot = await getDocs( collection(db,"productos"));
 
  snapshot.forEach((documento)=>{
-
    if(documento.id === id){
-
       const p = documento.data();
-
-      document.getElementById(
-         "editNombre"
-      ).value = p.Nombre || "";
-
-      document.getElementById(
-         "editCategoria"
-      ).value = p.Categoria || "";
-
-      document.getElementById(
-         "editSku"
-      ).value = p.sku || "";
-
-      document.getElementById(
-         "editCeco"
-      ).value = p.ceco || "";
-
-      document.getElementById(
-         "editCuenta"
-      ).value = p.cuenta || "";
-
-      document.getElementById(
-         "editImagen"
-      ).value = p.imagen || "";
-
+      document.getElementById("editNombre" ).value = p.Nombre || "";
+      document.getElementById("editCategoria").value = p.Categoria || "";
+      document.getElementById( "editSku" ).value = p.sku || "";
+      document.getElementById( "editCeco" ).value = p.ceco || "";
+      document.getElementById( "editCuenta" ).value = p.cuenta || "";
+      document.getElementById( "editImagen" ).value = p.imagen || "";
    }
-
  });
-
- document.getElementById(
-   "modalEditar"
- ).style.display = "block";
-
+ document.getElementById( "modalEditar").style.display = "block";
 };
 
 // Buscador
-document
-.getElementById("buscarProducto")
-.addEventListener("keyup",()=>{
+document.getElementById("buscarProducto").addEventListener("keyup",()=>{
 
- const filtro =
- document
- .getElementById("buscarProducto")
- .value
- .toLowerCase();
+ const filtro = document .getElementById("buscarProducto").value .toLowerCase();
+ const filas = document .querySelectorAll(   "#tablaProductos tr" );
 
- const filas =
- document
- .querySelectorAll(
-   "#tablaProductos tr"
- );
-
- filas.forEach((fila)=>{
-
-   const texto =
-   fila.textContent
-   .toLowerCase();
-
-   fila.style.display =
-   texto.includes(filtro)
-   ? ""
-   : "none";
-
+ filas.forEach((fila)=>{ 
+     const texto = fila.textContent .toLowerCase();
+   fila.style.display = texto.includes(filtro)? "" : "none";
  });
-
 });
-
 // Cargar productos al abrir
 cargarProductos();
 
 window.cerrarModal = function(){
-
- document.getElementById(
-   "modalEditar"
- ).style.display = "none";
-
+ document.getElementById(  "modalEditar" ).style.display = "none";
 };
 
-document
-.getElementById("guardarEdicionBtn")
-.addEventListener("click", async ()=>{
+document.getElementById("guardarEdicionBtn").addEventListener("click", async ()=>{
 
- await updateDoc(
-   doc(db,"productos",productoEditando),
+ await updateDoc(   doc(db,"productos",productoEditando),
    {
-      Nombre:
-      document.getElementById(
-         "editNombre"
-      ).value,
-
-      Categoria:
-      document.getElementById(
-         "editCategoria"
-      ).value,
-
-      sku:
-      document.getElementById(
-         "editSku"
-      ).value,
-
-      ceco:
-      document.getElementById(
-         "editCeco"
-      ).value,
-
-      cuenta:
-      document.getElementById(
-         "editCuenta"
-      ).value,
-
-      imagen:
-      document.getElementById(
-         "editImagen"
-      ).value
+      Nombre: document.getElementById("editNombre" ).value,
+      Categoria:document.getElementById( "editCategoria").value,
+      sku:  document.getElementById( "editSku" ).value,
+      ceco:  document.getElementById( "editCeco" ).value,
+      cuenta: document.getElementById( "editCuenta").value,
+      imagen: document.getElementById("editImagen").value
    }
  );
 
  alert("Producto actualizado");
-
  cerrarModal();
-
  cargarProductos();
-
 });
     
 </script>
-
 <div id="modalEditar" style="display:none;
 position:fixed;
 top:0;
