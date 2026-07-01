@@ -1,4 +1,4 @@
-alert("categoria.js funcionando");
+console.log("Categoría recibida:", categoria);
 import { db } from "./firebase.js";
 import { collection, getDocs} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 // Obtener categoría desde la URL
@@ -13,8 +13,10 @@ async function cargarProductos() {
     contenedor.innerHTML = "";
     try {
         const snapshot = await getDocs(collection(db, "productos"));
+        console.log("Productos encontrados:", snapshot.size);
         let productos = [];
         snapshot.forEach((doc) => {
+            console.log(p);
             const p = doc.data();
             if (p.Categoria === categoria) {
                 productos.push(p);
