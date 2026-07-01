@@ -1,4 +1,3 @@
-console.log("Categoría recibida:", categoria);
 import { db } from "./firebase.js";
 import { collection, getDocs} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 // Obtener categoría desde la URL
@@ -6,6 +5,7 @@ const parametros = new URLSearchParams(window.location.search);
 const categoria = parametros.get("cat");
 // Cambiar título
 document.getElementById("tituloCategoria").textContent = categoria;
+console.log("Categoría recibida:", categoria);
 // Contenedor
 const contenedor = document.getElementById("productos");
 // Cargar productos
@@ -16,8 +16,8 @@ async function cargarProductos() {
         console.log("Productos encontrados:", snapshot.size);
         let productos = [];
         snapshot.forEach((doc) => {
-            console.log(p);
             const p = doc.data();
+            console.log(p);
             if (p.Categoria === categoria) {
                 productos.push(p);
             }
